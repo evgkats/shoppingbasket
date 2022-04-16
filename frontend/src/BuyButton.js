@@ -9,7 +9,7 @@ class BuyButton extends Component {
 
     render() {
         return (
-            <Button color="primary" onClick={() => this.props.addProduct(this.props.value)}>Buy</Button>
+            <Button color="primary" onClick={() => this.props.addProduct(this.props.value)}>Add</Button>
         );
     }
 }
