@@ -10,52 +10,13 @@ class App extends Component {
         super(props)
         this.state = {
             products: [],
+            orderRequest: {
+                customerId: "",
+                products: []
+            },
             basket: {
-                // products: []
-                "id": 1,
-                "products": [
-                    {
-                        "id": 1,
-                        "name": "Pasta",
-                        "pricePerItem": "0.80",
-                        "shippingCostPerItem": "2.00",
-                        "totalPrice": "3.20",
-                        "totalShippingCost": "8.00",
-                        "quantity": 4
-                    },
-                    {
-                        "id": 2,
-                        "name": "Rice",
-                        "pricePerItem": "1.50",
-                        "shippingCostPerItem": "4.50",
-                        "totalPrice": "3.00",
-                        "totalShippingCost": "9.00",
-                        "quantity": 2
-                    },
-                    {
-                        "id": 3,
-                        "name": "Flour",
-                        "pricePerItem": "1.00",
-                        "shippingCostPerItem": "5.00",
-                        "totalPrice": "5.00",
-                        "totalShippingCost": "25.00",
-                        "quantity": 5
-                    },
-                    {
-                        "id": 11,
-                        "name": "Olive Oil",
-                        "pricePerItem": "15.00",
-                        "shippingCostPerItem": "75.00",
-                        "totalPrice": "30.00",
-                        "totalShippingCost": "150.00",
-                        "quantity": 2
-                    }
-                ],
-                "totalPrice": "41.20",
-                "originalTotalPrice": null,
-                "totalShipping": "192.00",
-                "total": "233.20",
-                "discounted": false
+                products: [],
+                discounted: false
             }
         }
         this.addProduct = this.addProduct.bind(this)
@@ -63,7 +24,30 @@ class App extends Component {
 
 
     async addProduct(id) {
-        console.log("added: " + id)
+        console.log("added: " + id);
+        const newProducts = this.state.orderRequest.products.slice();
+        let addedItem = newProducts.find(product => product.id === id);
+        if (addedItem) {
+            addedItem.quantity = addedItem.quantity + 1;
+        } else {
+            newProducts.push({ id: id, quantity: 1 })
+        }
+        this.setState((state, props) => ({
+            orderRequest:{
+                customerId: "",
+                products: newProducts
+            }
+        }));
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.state.orderRequest)
+        };
+        await fetch('/orders', requestOptions)
+            .then(response => response.json())
+            .then(data => this.setState((state, props) => ({
+                basket: data
+            })));
     }
 
     async componentDidMount() {

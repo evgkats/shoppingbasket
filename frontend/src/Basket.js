@@ -10,7 +10,6 @@ class Basket extends Component {
             <table className="table">
                 <thead>
                 <tr>
-                    {/*<td>Id </td>*/}
                     <th>Product</th>
                     <th>Quantity</th>
                     <th>Item Price</th>
@@ -22,18 +21,17 @@ class Basket extends Component {
                 <tbody>
                 {
                     products?.map(product => {
-                        return <tr>
-                            {/*<td>{product.id} </td>*/}
+                        return <tr key={product.id}>
                             <td>{product.name}</td>
                             <td>{product.quantity}</td>
                             <td>{product.pricePerItem}</td>
                             <td>{product.shippingCostPerItem}</td>
-                            <td class="text-end">{product.totalPrice}</td>
-                            <td class="text-end">{product.totalShippingCost}</td>
+                            <td className="text-end">{product.totalPrice}</td>
+                            <td className="text-end">{product.totalShippingCost}</td>
                         </tr>
                     })
                 }
-                {!products.length && <td colSpan={6}>Add items to your basket!</td>}
+                {!products.length && <tr><td colSpan={6}>Add items to your basket!</td></tr>}
                 </tbody>
                 { totalPrice && totalShipping &&
                     <tfoot>
@@ -43,22 +41,22 @@ class Basket extends Component {
                         <td></td>
                         <td></td>
                         <td className={discounted ? "text-decoration-line-through text-end" : "text-end"}>{discounted ? originalTotalPrice : totalPrice}</td>
-                        <td class="text-end">{totalShipping}</td>
+                        <td className="text-end">{totalShipping}</td>
                     </tr>
                     {discounted && <tr>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td>10% discount applied!</td>
-                        <td class="text-end">{totalPrice}</td>
-                        <td class="text-end">{totalShipping}</td>
+                        <td className="text-end">{totalPrice}</td>
+                        <td className="text-end">{totalShipping}</td>
                     </tr>
                     }
                     <tr>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td class="fw-bold text-end" colSpan={3}>Total Price + Shipping = {total}</td>
+                        <td className="fw-bold text-end" colSpan={3}>Total Price + Shipping = {total}</td>
                     </tr>
                     </tfoot>
                 }
