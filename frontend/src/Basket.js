@@ -4,7 +4,16 @@ import React, {Component} from 'react';
 class Basket extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            value: props.value
+        }
         this.onInputChange = this.onInputChange.bind(this);
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.value !== this.props.value) {
+            this.setState({value: this.props.value});
+        }
     }
 
     onInputChange(event) {
@@ -13,7 +22,7 @@ class Basket extends Component {
     }
 
     render() {
-        const {products, totalPrice, originalTotalPrice, totalShipping, total, discounted} = this.props.value;
+        const {products, totalPrice, originalTotalPrice, totalShipping, total, discounted} = this.state.value;
         return (
             <table className="table">
                 <thead>

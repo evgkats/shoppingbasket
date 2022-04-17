@@ -32,13 +32,14 @@ class App extends Component {
         } else {
             newProducts.push({ id: id, quantity: 1 })
         }
+        let orderRequest = {
+            customerId: "",
+            products: newProducts
+        }
         this.setState((state, props) => ({
-            orderRequest:{
-                customerId: "",
-                products: newProducts
-            }
+            orderRequest: orderRequest
         }));
-        await this.submitOrder();
+        await this.submitOrder(orderRequest);
     }
 
     async updateProductQuantity(id, quantity) {
@@ -48,20 +49,21 @@ class App extends Component {
                 product.quantity = Number(quantity);
             }
         });
+        let orderRequest = {
+            customerId: "",
+            products: newProducts
+        }
         this.setState((state, props) => ({
-            orderRequest:{
-                customerId: "",
-                products: newProducts
-            }
+            orderRequest: orderRequest
         }));
-        await this.submitOrder();
+        await this.submitOrder(orderRequest);
     }
 
-    async submitOrder() {
+    async submitOrder(orderRequest) {
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(this.state.orderRequest)
+            body: JSON.stringify(orderRequest)
         };
         await fetch('/orders', requestOptions)
             .then(response => response.json())
