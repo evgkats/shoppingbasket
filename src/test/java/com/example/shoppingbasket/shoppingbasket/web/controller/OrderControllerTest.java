@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -70,6 +71,7 @@ class OrderControllerTest {
         ProductDto productDto = new ProductDto(1, "test", price, shipping, price, shipping, 1);
         when(orderService.createOrderDtoFromOrder(order)).thenReturn(new OrderDto("test", List.of(productDto), price, false, price, shipping));
 
+        when(orderService.createOrder(any(OrderRequest.class))).thenReturn(order);
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post("/orders")
                 .content(objectMapper.writeValueAsString(orderRequest))
