@@ -7,6 +7,7 @@ A simple shopping basket built with Spring Boot and React
     ```
     mvn spring-boot:run
     ```
+   (it may take a 2-3 minutes)
 
 ## About
 A simple web application with a basic HTML front-end where from the user can add/remove items into their basket from a pool of priced items (dummy, hard-coded within the application). 
