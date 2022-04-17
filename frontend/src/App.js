@@ -20,10 +20,10 @@ class App extends Component {
             }
         }
         this.addProduct = this.addProduct.bind(this)
+        this.updateProductQuantity = this.updateProductQuantity.bind(this)
     }
 
-
-    async addProduct(id) {
+    async addProduct(id, quantity) {
         console.log("added: " + id);
         const newProducts = this.state.orderRequest.products.slice();
         let addedItem = newProducts.find(product => product.id === id);
@@ -38,15 +38,42 @@ class App extends Component {
                 products: newProducts
             }
         }));
+        await this.submitOrder();
+    }
+
+    async updateProductQuantity(id, quantity) {
+        const newProducts = this.state.orderRequest.products.slice(0);
+        newProducts.forEach(product => {
+            if(product.id == id) {
+                product.quantity = Number(quantity);
+            }
+        });
+        this.setState((state, props) => ({
+            orderRequest:{
+                customerId: "",
+                products: newProducts
+            }
+        }));
+        await this.submitOrder();
+    }
+
+    async submitOrder() {
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state.orderRequest)
         };
         await fetch('/orders', requestOptions)
             .then(response => response.json())
             .then(data => this.setState((state, props) => ({
-                basket: data
+                basket: {
+                    products: Object.assign([], data.products),
+                    discounted: data.discounted,
+                    totalPrice: data.totalPrice,
+                    originalTotalPrice: data.originalTotalPrice,
+                    totalShipping: data.totalShipping,
+                    total: data.total
+                }
             })));
     }
 
@@ -68,7 +95,7 @@ class App extends Component {
                         </Col>
                         <Col className="bg-light border">
                             <h2>Basket</h2>
-                            <Basket value={ basket } />
+                            <Basket value={ basket } updateProductQuantity={ this.updateProductQuantity }/>
                         </Col>
                     </Row>
                 </Container>
