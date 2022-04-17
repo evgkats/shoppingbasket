@@ -9,6 +9,7 @@ import java.util.Optional;
 @Component
 public interface ProductRepository {
 
-    public List<Product> findAll();
-    public Optional<Product> findById(int id);
+    List<Product> findAll();
+    Optional<Product> findById(int id);
+
 }

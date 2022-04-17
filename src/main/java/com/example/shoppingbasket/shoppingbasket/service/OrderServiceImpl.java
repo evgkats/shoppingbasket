@@ -17,8 +17,6 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    private Map<String, Order> orders = new HashMap<>();
-
     private final ProductRepository productRepository;
 
     public OrderServiceImpl(ProductRepository productRepository) {
@@ -33,7 +31,6 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderProducts(orderRequest.getProducts().stream()
                 .map(p -> new OrderProduct(productRepository.findById(p.getId()).orElseThrow(), p.getQuantity()))
                 .collect(Collectors.toList()));
-        orders.put(order.getId(), order);
         return order;
     }
 
@@ -51,10 +48,5 @@ public class OrderServiceImpl implements OrderService {
         orderDto.setTotalShipping(order.getTotalShipping());
         orderDto.setTotal(orderDto.getTotalPrice().add(orderDto.getTotalShipping()));
         return orderDto;
-    }
-
-    @Override
-    public String test() {
-        return "hello test";
     }
 }

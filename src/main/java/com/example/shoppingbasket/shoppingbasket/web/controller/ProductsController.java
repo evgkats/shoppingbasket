@@ -1,8 +1,6 @@
 package com.example.shoppingbasket.shoppingbasket.web.controller;
 
-import com.example.shoppingbasket.shoppingbasket.model.Product;
 import com.example.shoppingbasket.shoppingbasket.repository.ProductRepository;
-import com.example.shoppingbasket.shoppingbasket.web.dto.ProductDto;
 import com.example.shoppingbasket.shoppingbasket.web.dto.ProductLiteDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

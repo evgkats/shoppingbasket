@@ -7,8 +7,7 @@ import com.example.shoppingbasket.shoppingbasket.web.dto.OrderRequest;
 
 public interface OrderService {
 
-    public Order createOrder(OrderRequest orderRequest);
-    public OrderDto createOrderDtoFromOrder(Order order);
-    public String test();
+    Order createOrder(OrderRequest orderRequest);
+    OrderDto createOrderDtoFromOrder(Order order);
 
 }

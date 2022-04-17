@@ -6,7 +6,6 @@ import com.example.shoppingbasket.shoppingbasket.web.dto.OrderDto;
 import com.example.shoppingbasket.shoppingbasket.web.dto.OrderRequest;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,10 +33,8 @@ public class OrdersController {
 
     @PostMapping
     public OrderDto submitOrder(@RequestBody OrderRequest orderRequest,
-                                HttpServletRequest request,
                                 HttpSession httpSession) {
         String sessionId = httpSession.getId();
-        System.out.println(sessionId);
         orderRequest.setCustomerId(sessionId);
         Order order = orderService.createOrder(orderRequest);
         orders.put(order.getId(), order);
