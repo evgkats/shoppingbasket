@@ -10,13 +10,13 @@ public class Order {
     private static final float DISCOUNT = 0.1f;
     private static final BigDecimal DISCOUNT_AFTER_AMOUNT = BigDecimal.valueOf(100);
 
-    private Integer id;
+    private String id;
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
     public Order() {
     }
 
-    public Order(Integer id, List<OrderProduct> orderProducts) {
+    public Order(String id, List<OrderProduct> orderProducts) {
         this.id = id;
         this.orderProducts = orderProducts;
     }
@@ -46,11 +46,11 @@ public class Order {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

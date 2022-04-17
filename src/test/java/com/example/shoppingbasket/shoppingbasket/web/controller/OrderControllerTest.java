@@ -62,13 +62,13 @@ class OrderControllerTest {
         OrderProductDto orderProductDto = new OrderProductDto(product.getId(), 1);
         OrderRequest orderRequest = new OrderRequest("id", List.of(orderProductDto));
         when(productRepository.findById(anyInt())).thenReturn(Optional.of(product));
-        Order order = new Order(1, List.of(new OrderProduct(product, 1)));
+        Order order = new Order("test", List.of(new OrderProduct(product, 1)));
 
         when(orderService.createOrder(orderRequest)).thenReturn(order);
         BigDecimal price = new BigDecimal("1.00");
         BigDecimal shipping = new BigDecimal("5.00");
         ProductDto productDto = new ProductDto(1, "test", price, shipping, price, shipping, 1);
-        when(orderService.createOrderDtoFromOrder(order)).thenReturn(new OrderDto(1, List.of(productDto), price, false, price, shipping));
+        when(orderService.createOrderDtoFromOrder(order)).thenReturn(new OrderDto("test", List.of(productDto), price, false, price, shipping));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post("/orders")

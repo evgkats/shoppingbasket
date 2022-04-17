@@ -80,9 +80,31 @@ class App extends Component {
     }
 
     async componentDidMount() {
+        await this.fetchProducts();
+        await this.fetchExistingOrder();
+    }
+
+    async fetchProducts() {
         const response = await fetch('/products');
         const body = await response.json();
         this.setState({products: body});
+    }
+
+    async fetchExistingOrder() {
+        const response = await fetch('/orders');
+        const body = await response.json();
+        this.setState({
+            basket: body,
+            orderRequest: {
+                customerId: body.customerId,
+                products: body.products.map(p => ({ id: p.id, quantity: p.quantity })),
+                totalPrice: body.totalPrice,
+                originalTotalPrice: body.originalTotalPrice,
+                totalShipping: body.totalShipping,
+                total: body.total,
+                discounted: body.discounted
+            }
+        });
     }
 
     render() {

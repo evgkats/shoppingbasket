@@ -8,10 +8,16 @@ import com.example.shoppingbasket.shoppingbasket.web.dto.OrderRequest;
 import com.example.shoppingbasket.shoppingbasket.web.dto.ProductDto;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
+    private Map<String, Order> orders = new HashMap<>();
 
     private final ProductRepository productRepository;
 
@@ -23,18 +29,18 @@ public class OrderServiceImpl implements OrderService {
     public Order createOrder(OrderRequest orderRequest) {
         Order order = new Order();
 
-        order.setId(1);
+        order.setId(orderRequest.getCustomerId());
         order.setOrderProducts(orderRequest.getProducts().stream()
                 .map(p -> new OrderProduct(productRepository.findById(p.getId()).orElseThrow(), p.getQuantity()))
                 .collect(Collectors.toList()));
-
+        orders.put(order.getId(), order);
         return order;
     }
 
     @Override
     public OrderDto createOrderDtoFromOrder(Order order) {
         OrderDto orderDto = new OrderDto();
-        orderDto.setId(1);
+        orderDto.setId(order.getId());
         orderDto.setProducts(order.getOrderProducts().stream()
                 .map(p -> new ProductDto(p.getProduct().getId(), p.getProduct().getName(), p.getProduct().getPrice(), p.getProduct().getShippingCost(), p.getTotal(), p.getShippingCost(), p.getQuantity()))
                 .collect(Collectors.toList()));

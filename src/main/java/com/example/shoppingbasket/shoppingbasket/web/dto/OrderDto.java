@@ -3,10 +3,11 @@ package com.example.shoppingbasket.shoppingbasket.web.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDto {
-    private int id;
+    private String id;
     private List<ProductDto> products;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigDecimal totalPrice;
@@ -19,9 +20,11 @@ public class OrderDto {
     private BigDecimal total;
 
     public OrderDto() {
+        this.id = "";
+        this.products = new ArrayList<>();
     }
 
-    public OrderDto(int id, List<ProductDto> products, BigDecimal totalPrice, boolean isDiscounted, BigDecimal totalShipping, BigDecimal total) {
+    public OrderDto(String id, List<ProductDto> products, BigDecimal totalPrice, boolean isDiscounted, BigDecimal totalShipping, BigDecimal total) {
         this.id = id;
         this.products = products;
         this.totalPrice = totalPrice;
@@ -30,11 +33,11 @@ public class OrderDto {
         this.total = total;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
